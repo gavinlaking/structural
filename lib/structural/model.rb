@@ -1,7 +1,5 @@
 module Structural
   module Model
-    attr_reader :data
-
     def initialize(data = {})
       @data = Hashifier.hashify(data)
     end
@@ -21,6 +19,10 @@ module Structural
 
     def hash
       data.hash
+    end
+
+    def data
+      @data.with_indifferent_access
     end
 
     private

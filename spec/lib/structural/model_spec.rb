@@ -30,21 +30,21 @@ class TestModel
 end
 
 describe Structural::Model do
-  let(:model) do
-    TestModel.new(
-      :foo => 3,
-      :baz => 6,
-      :quxx => 8,
-      :nested_hash => {1 => :one, 2 => :two},
-      :test_model => {},
-      :date_of_birth => '06-06-1983',
-      :aliased_model => {'yak' => 11},
-      :nested_models => [{'yak' => 11}, {:yak => 14}],
-      :extra_nested_model => { :cats => "MIAOW" },
-      :time_stamp => '2015-01-27T13:13:13+00:00'
-    )
-  end
-
+  let(:model) { TestModel.new(data) }
+  let(:data) {
+    {
+      'foo' => 3,
+      'baz' => 6,
+      'quxx' => 8,
+      'nested_hash' => {1 => :one, 2 => :two},
+      'test_model' => {},
+      'date_of_birth' => '06-06-1983',
+      'aliased_model' => {'yak' => 11},
+      'nested_models' => [{'yak' => 11}, {'yak' => 14}],
+      'extra_nested_model' => { 'cats' => "MIAOW" },
+      'time_stamp' => '2015-01-27T13:13:13+00:00'
+    }
+  }
 
   describe ".new" do
     it 'converts any passed Structural models to their hash representations' do
@@ -164,6 +164,20 @@ describe Structural::Model do
       hash = { one => :found }
       hash[two].should be_nil
       hash[one].should eq :found
+    end
+  end
+
+  describe "#data" do
+    it 'returns the model as a hash' do
+      model.data.should eq data
+    end
+
+    it 'allows access to values via string keys' do
+      model.data['foo'].should eq 3
+    end
+
+    it 'allows access to values via symbol keys' do
+      model.data[:foo].should eq 3
     end
   end
 
